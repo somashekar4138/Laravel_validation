@@ -16,7 +16,7 @@ use App\Http\Controllers\userController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 });
 Route::get("/register",function () {
     return view('register');
@@ -27,7 +27,19 @@ Route::get("/login",function () {
 });
 
 Route::post("/login",[userController::class,'loginValidator']);
-Route::get("/list",[userController::class,'List']);
+
+Route::get("/logout",function(){
+    if(session()->has('user')){
+        session()->pull('user');
+    }
+    return redirect('login');
+});
+Route::group(['middleware'=>['CustomAuth']],function(){
+    Route::get("/main",function () {
+        return view('login');
+    });
+    Route::get("/list",[userController::class,'List']);
+});
 
 
 

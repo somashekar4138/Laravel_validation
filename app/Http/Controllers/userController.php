@@ -42,7 +42,9 @@ class userController extends Controller
             $c=$user->name;
 
             if($a == $b){
-                return view('main',['users'=>$c]);
+                $request->session()->put('user',$c);
+                
+                return redirect('main');
             }
             else{
                 return back()->with('status','password doesnt match');
